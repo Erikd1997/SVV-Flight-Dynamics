@@ -1,4 +1,4 @@
-function [sysS, sysA, A_S, A_A] = state_space_system(c)
+function [sysS, sysA] = state_space_system(c)
 %This function transforms the C1, C2 and C3 matrices of the linear model to
 %a state space representation for both the symmetric and asymmetric model.
 
