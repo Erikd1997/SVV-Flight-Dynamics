@@ -35,8 +35,8 @@ sysS.OutputName = {'u', '\alpha', '\theta', 'q'};
 %% Asymmetric model
 % Defining C1, C2 and C3
 C1_A = [(c.CYbdot-2*c.mub)*c.b/c.V0, 0,                    0,                   0             ;
-               0,                    1,                    0,                   0             ;
-               0,                    0,   -2*c.mub*c.KX2^2*(c.b/c.V0)^2,  2*c.mub*c.KXZ*(c.b/c.V0)^2;
+               0,                 1,                    0,                   0             ;
+               0,                 0,   -2*c.mub*c.KX2^2*(c.b/c.V0)^2,  2*c.mub*c.KXZ*(c.b/c.V0)^2;
         c.Cnbdot*c.b/c.V0,           0,     2*c.mub*c.KXZ*(c.b/c.V0)^2,  -2*c.mub*c.KZ2^2*(c.b/c.V0)^2];
            
 C2_A = [c.CYb, c.CL, c.CYp*c.b/(2*c.V0), c.b/(2*c.V0)*(c.CYr-4*c.mub);

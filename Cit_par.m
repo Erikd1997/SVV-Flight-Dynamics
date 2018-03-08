@@ -4,10 +4,10 @@
 
 % Stationary flight condition
 
-hp0    = 1;      	  % pressure altitude in the stationary flight condition [m]
-V0     = 100;         % true airspeed in the stationary flight condition [m/sec]
-alpha0 = deg2rad(3);  % angle of attack in the stationary flight condition [rad]
-th0    = deg2rad(1);  % pitch angle in the stationary flight condition [rad]
+hp0    = 10000;      	  % pressure altitude in the stationary flight condition [m]
+V0     = 59.9;         % true airspeed in the stationary flight condition [m/sec]
+alpha0 = deg2rad(0);  % angle of attack in the stationary flight condition [rad]
+th0    = deg2rad(0);  % pitch angle in the stationary flight condition [rad]
 
 % Aircraft mass
 m      = 3655;         	  % mass [kg]
