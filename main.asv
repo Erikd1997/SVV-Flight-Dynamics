@@ -30,11 +30,11 @@ uA = [deg2rad(sin(tA)); deg2rad(sin(tA))]; %da = 15degrees, dr = 26 degrees
 %uA(:,1:20) = ones(2,20)*deg2rad(1);
 
 %Evaluate state-space model
-yS = lsim(sysS,uS,tS,x0S);
-yA = lsim(sysA,uA,tA,x0A);
+%yS = lsim(sysS,uS,tS,x0S);
+%yA = lsim(sysA,uA,tA,x0A);
 
-%[yS, tS] = step(sysS);
-%[yA, tA] = step(sysA);
+[yS, tS] = step(sysS);
+[yA, tA] = step(sysA);
 
 %Save and transform, if necessary
 V  = yS(:,1)+c.V0;
