@@ -14,7 +14,7 @@ clear
 c = load('Cit_par.mat');
 
 %Create state-space-system
-[sysS, sysA] = state_space_system(c);
+[sysS, sysA, A_S, A_A] = state_space_system(c);
 
 %Create initial state vector
 x0S = [ 0, 0, 0, 0];
