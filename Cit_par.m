@@ -4,13 +4,13 @@
 
 % Stationary flight condition
 
-hp0    = 10000;      	  % pressure altitude in the stationary flight condition [m]
+hp0    = 10000*0.3048; % pressure altitude in the stationary flight condition [m]
 V0     = 59.9;         % true airspeed in the stationary flight condition [m/sec]
-alpha0 = deg2rad(0);  % angle of attack in the stationary flight condition [rad]
-th0    = deg2rad(0);  % pitch angle in the stationary flight condition [rad]
+alpha0 = deg2rad(0);   % angle of attack in the stationary flight condition [rad]
+th0    = deg2rad(0);   % pitch angle in the stationary flight condition [rad]
 
 % Aircraft mass
-m      = 3655;         	  % mass [kg]
+m      = 3000;         	  % mass [kg]
 
 % aerodynamic properties
 e      = 0.8;            % Oswald factor [ ]
@@ -92,7 +92,7 @@ CYb    = -0.7500;
 CYbdot =  0     ;
 CYp    = -0.0304;
 CYr    = +0.8495;
-CYda   = -0.0400;
+CYda   = +0.0400;
 CYdr   = +0.2300;
 
 Clb    = -0.10260;
@@ -101,9 +101,9 @@ Clr    = +0.23760;
 Clda   = -0.23088;
 Cldr   = +0.03440;
 
-Cnb    =  +0.1348;
-Cnbdot =   0     ;
-Cnp    =  -0.0602;
-Cnr    =  -0.2061;
-Cnda   =  -0.0120;
-Cndr   =  -0.0939;
+Cnb    = +0.1348;
+Cnbdot = 0     ;
+Cnp    = -0.0602;
+Cnr    = -0.2061;
+Cnda   = -0.0120;
+Cndr   = -0.0939;
