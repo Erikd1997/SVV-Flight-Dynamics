@@ -1,6 +1,6 @@
 function [V_r_eq, V_t, T, M, rho] = reduced_eq_airspeed(V_c, hp, TAT, W, W_s)
 %This function transforms the calibrated airspeeds (which is the IAS from
-%the flight test) into the reduced, equivalent airspeeds. All input
+%the flight test, in m/s) into the reduced, equivalent airspeeds. All input
 %variables are expected to be in SI-units. V_c, hp, TAT, and W should be
 %one-dimensional arrays of the same size.
 
