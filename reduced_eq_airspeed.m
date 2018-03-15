@@ -1,4 +1,4 @@
-function [V_r_eq] = reduced_eq_airspeed(V_c, hp, TAT, W, W_s)
+function [V_r_eq, V_t, T] = reduced_eq_airspeed(V_c, hp, TAT, W, W_s)
 %This function transforms the calibrated airspeeds (which is the IAS from
 %the flight test) into the reduced, equivalent airspeeds. All input
 %variables are expected to be in SI-units. V_c, hp, TAT, and W should be
@@ -12,7 +12,7 @@ a0     = 340.294;    % [m/s]
 g0     = 9.80665;    % [m/s^2]
 gamma  = 1.401;      % [-]
 R      = 287.04;     % [m^2/(degK*sec^2)]
-lambda = -0.00656;  % [degK/m]
+lambda = -0.0065;    % [degK/m]
 
 %First find the ISA pressures and use it to find the corresponding mach 
 %numbers: 
