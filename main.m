@@ -37,15 +37,15 @@ yA = lsim(sysA,uA,tA,x0A);
 %[yA, tA] = step(sysA);
 
 %Save and transform, if necessary
-V  = yS(:,1)+c.V0;
+V  = yS(:,1)*c.V0+c.V0;
 alpha = yS(:,2) + c.alpha0;
 theta = yS(:,3) + c.th0;
-q = yS(:,4);
+q = yS(:,4)*c.V0/c.c;
 
 beta = yA(:,1);
 phi = yA(:,2);
-p = yA(:,3);
-r = yA(:,4);
+p = yA(:,3)*2*c.V0/c.c;
+r = yA(:,4)*2*c.V0/c.c;
 
 %Plot everything!!!
 %Start with symmetric case
