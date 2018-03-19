@@ -21,5 +21,5 @@ fclose(fid);
 %% Save the thrust values
 fid = fopen('Thrust.dat','r');
 Result = fscanf(fid,'%f',[2 length(textarray)]);
-T = Result(1,:)';
+T = Result';
 end
