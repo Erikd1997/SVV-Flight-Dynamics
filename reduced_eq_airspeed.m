@@ -1,7 +1,7 @@
-function [V_r_eq, V_t, T, M, rho] = reduced_eq_airspeed(V_c, hp, TAT, W, W_s)
+function [V_r_eq, Vt, Temp, M, rho] = reduced_eq_airspeed(Vc, hp, TAT, W, Ws)
 %This function transforms the calibrated airspeeds (which is the IAS from
-%the flight test) into the reduced, equivalent airspeeds. All input
-%variables are expected to be in SI-units. V_c, hp, TAT, and W should be
+%the flight test, in m/s) into the reduced, equivalent airspeeds. All input
+%variables are expected to be in SI-units. Vc, hp, TAT, W and Ws should be
 %one-dimensional arrays of the same size.
 
 %First some basic ISA-values:
@@ -18,22 +18,22 @@ lambda = -0.0065;    % [degK/m]
 %numbers: 
 p = p0*(1+lambda*hp/T0).^(-g0/(lambda*R));
 
-M = sqrt(2/(gamma-1)*((1+p0./p.*((1+(gamma-1)/(2*gamma)*rho0/p0*V_c.^2).^(gamma/(gamma-1)) -...
+M = sqrt(2/(gamma-1)*((1+p0./p.*((1+(gamma-1)/(2*gamma)*rho0/p0*Vc.^2).^(gamma/(gamma-1)) -...
     1)).^((gamma-1)/gamma) - 1));
 
 %Now find the static air temperatures and corresponding speeds of sound,
 %along with the air densities.=:
-T = TAT./(1 + ((gamma-1)/2).*M.^2);
+Temp = TAT./(1 + ((gamma-1)/2).*M.^2);
 
-a = (gamma*R.*T).^0.5;
+a = (gamma*R.*Temp).^0.5;
 
-rho = p./(R.*T);
+rho = p./(R.*Temp);
 
 %Now calculate the true and equivalent airspeeds:
-V_t = M.*a;
+Vt = M.*a;
 
-V_eq = V_t.*sqrt(rho./rho0);
+V_eq = Vt.*sqrt(rho./rho0);
 
 %Now convert into reduced equivalent airspeeds:
-V_r_eq = V_eq.*sqrt(W_s./W);
-
+V_r_eq = V_eq.*sqrt(Ws./W);
+end

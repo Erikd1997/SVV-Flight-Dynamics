@@ -26,7 +26,7 @@ TAT_K = TAT_meas + 273.15;
 [~, V_t, TAT, M, rho] = reduced_eq_airspeed(IAS_SI, hp_meas, TAT_K, weight, 0);
 FFl = FFl_meas*0.3048/3600;
 FFr = FFr_meas*0.3048/3600;
-T = ThrustFile(c, hp, M, FFl, FFr, TAT);
+T = ThrustFile(c, hp, M, TAT, FFl, FFr);
 
 %Construct graphs
 Cl = weight./(0.5.*rho.*c.S.*V_t.^(2));

@@ -1,4 +1,4 @@
-function T = ThrustFile(c,hp_col, M_col, Mf1_col, Mf2_col, T_temp_col)
+function T = ThrustFile(c,hp_col, M_col, T_temp_col, Mf1_col, Mf2_col)
 %This function obtains the thrust per engine for each moment in time
 %% Firstly, the required parameters for the thrust.exe file are calculated
 T_temp_ISA = c.Temp0 + c.lambda*hp_col;
