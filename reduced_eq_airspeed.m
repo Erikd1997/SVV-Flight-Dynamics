@@ -16,7 +16,7 @@ lambda = -0.0065;    % [degK/m]
 
 %First find the ISA pressures and use it to find the corresponding mach 
 %numbers: 
-p = p0*(1+lambda*hp/T0).^(-g0/(lambda*R));
+p = p0*(1+lambda.*hp./T0).^(-g0/(lambda*R));
 
 M = sqrt(2/(gamma-1)*((1+p0./p.*((1+(gamma-1)/(2*gamma)*rho0/p0*Vc.^2).^(gamma/(gamma-1)) -...
     1)).^((gamma-1)/gamma) - 1));
