@@ -10,7 +10,7 @@ alpha0 = deg2rad(0);   % angle of attack in the stationary flight condition [rad
 th0    = deg2rad(0);   % pitch angle in the stationary flight condition [rad]
 
 % Aircraft mass
-m      = 3000;         % mass [kg]
+m      = 5000;         % mass [kg] (5000 kg is a random value)
 Ws     = 60500;        % Aircraft std. weight [N]
 
 % Standard thrust values
@@ -52,7 +52,7 @@ p0     = 101325;          % [Pa]
 
 rho    = rho0*((1+(lambda*hp0/Temp0)))^(-((g/(lambda*R))+1));   % [kg/m^3]  (air density)
 W      = m*g;                                                   % [N]       (aircraft weight)
-Wi     = 2800*0.45359237+ 92+95+76+61+59+66+77+84 +3655;        % [lbs]     (initial weight)
+Wi     = (2800*0.45359237 + 92+95+76+61+59+66+77+84 + 3655)*g;  % [kg]      (initial weight)
 
 % Constant values concerning aircraft inertia
 
