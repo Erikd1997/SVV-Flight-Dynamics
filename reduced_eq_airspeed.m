@@ -8,7 +8,6 @@ function [V_r_eq, Vt, Temp, M, rho] = reduced_eq_airspeed(Vc, hp, TAT, W, Ws)
 p0     = 101325;     % [Pa]
 rho0   = 1.225;      % [kg/m^3]
 T0     = 288.15;     % [degK]
-a0     = 340.294;    % [m/s]
 g0     = 9.80665;    % [m/s^2]
 gamma  = 1.401;      % [-]
 R      = 287.04;     % [m^2/(degK*sec^2)]

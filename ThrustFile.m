@@ -7,7 +7,12 @@ Delta_T_temp_col = T_temp_col - T_temp_ISA;
 
 digits = 4;
 fid = fopen('matlab.dat','w');
-textarray = string(num2str(hp_col,digits))+' '+string(num2str(M_col,digits))+' '+string(num2str(Delta_T_temp_col,digits))+' '+string(num2str(Mf2_col,digits))+' '+string(num2str(Mf1_col,digits));
+textarray = string(num2str(hp_col,char('%.'+string(digits)+'f')))+' '+...
+    string(num2str(M_col,char('%.'+string(digits)+'f')))+' '+...
+    string(num2str(Delta_T_temp_col,char('%.'+string(digits)+'f')))+' '+...
+    string(num2str(Mf2_col,char('%.'+string(digits)+'f')))+' '+...
+    string(num2str(Mf1_col,char('%.'+string(digits)+'f')));
+
 text = textarray(1);
 for i = 2:length(textarray)
     text = text + '\r\n' + textarray(i);

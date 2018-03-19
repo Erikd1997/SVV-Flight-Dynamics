@@ -16,9 +16,8 @@ Ws     = 60500;        % Aircraft std. weight [N]
 % Standard thrust values
 mf_s   = 0.048;        % Fuel flow [kg/s]
 
-
 % aerodynamic properties
-e      = 0.8;            % Oswald factor [ ]
+e      = 0.01;            % Oswald factor [ ]
 CD0    = 0.04;            % Zero lift drag coefficient [ ]
 CLa    = 5.084;            % Slope of CL-alpha curve [ ]
 

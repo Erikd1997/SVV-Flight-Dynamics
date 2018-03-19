@@ -46,7 +46,7 @@ Cm_d = -(1/Delta_de_s3)*C_N*Delta_cg/c.c;
 
 %Now start computing Cm_alpha, by obtaining the reduced airspeed.
 
-W_s2 = -F_used_s2 + Wi
+W_s2 = -F_used_s2 + Wi;
 [V_r_eq, V_t_s2, Temp_s2, M_s2, rho_s2] = reduced_eq_airspeed(IAS_s2, hp_s2, TAT_s2, W_s2, Ws);
 
 %for which the thrust at all measurement times is required. Therefor create

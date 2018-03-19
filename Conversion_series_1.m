@@ -1,50 +1,101 @@
 close all
 clear all
+clc
 
 %Load in values in a struct 'c'
 c = load('Cit_par.mat');
 c.Temp0 = 19+273.15;
 
+
+%Aircraft empty weight
+BEM = 9165*0.45359237;      % [kg]
+
 %% Stationary measurements series 1 processing
-hp_meas = [5064;5063;5070;5060;5065;5050];  %[ft]
-IAS_meas = [248.3;220.3;193.3;160.3;143.5;113];       %[kts]
-alpha_meas = [1.47;2.1;3.1;5.1;6.5;11];    %[deg]
-FFl_meas = [770;674;553.8;453.8;429.8;424];       %[lbs/hr]
-FFr_meas = [783.3;684.2;573.6;481.3;451.7;445];       %[lbs/hr]
-Fused_meas = [395.83;426.5;457.2;480.8;500.8;539];     %[lbs]
-TAT_meas = [9;7.2;5.2;3.8;2.65;1.8];      %[degree C]
+datasheet = 'Post_Flight_Datasheet_Flight_2_DD_14_3_2018.xlsx'; %name
+[~, hp, IAS_SI, alpha, FFl, FFr, F_used, TAT_K, weight] = ExcelReader_S1(datasheet, BEM);
 
-%Initial parameters
-Wi = 2000*0.45359237+ 92+82+130+78+73+75+89+74.5+92 +3655;              %[lbs]
+%Convert velocity
+[~, V_t, TAT, M, rho] = reduced_eq_airspeed(IAS_SI, hp, TAT_K, weight, 0);
 
-%Convert all measurements to SI units
-hp = hp_meas * 0.3048;
-alpha = deg2rad(alpha_meas);
-weight = Wi - Fused_meas*0.45359237;
-IAS_SI = IAS_meas*0.514444444;
-TAT_K = TAT_meas + 273.15;
-[~, V_t, TAT, M, rho] = reduced_eq_airspeed(IAS_SI, hp_meas, TAT_K, weight, 0);
-FFl = FFl_meas*0.3048/3600;
-FFr = FFr_meas*0.3048/3600;
+%Find thrust
 T = ThrustFile(c, hp, M, TAT, FFl, FFr);
 
 %Construct graphs
 Cl = weight./(0.5.*rho.*c.S.*V_t.^(2));
 Cd = (T(:,1)+T(:,2))./(0.5.*rho.*c.S.*V_t.^(2));
 
+%Fit Cl and Cd
 Cl_fit_f = fittype('b*(x-a)');
 Cd_fit_f = fittype('a + b*x^2');
 
 Cl_fit = fit(alpha, Cl, Cl_fit_f, 'StartPoint', [0, 0]);
-Cd_fit = fit(Cl_fit(alpha), Cd, Cd_fit_f, 'StartPoint', [0,0]);
+Cd_fit = fit(Cl_fit(alpha), Cd, Cd_fit_f, 'StartPoint', [0,1/(pi*c.A*c.e)]);
+
+%Determine coefficients from functions
+coeff_Cd = coeffvalues(Cd_fit);
+coeff_Cl = coeffvalues(Cl_fit);
+
+Cd0 = coeff_Cd(1);
+e = 1/(pi*c.A*coeff_Cd(2));
+Cla = coeff_Cl(2);
+alpha0 = coeff_Cl(1);
 
 %Plot solutions
 figure(1)
-plot(rad2deg(alpha), Cl_fit(alpha), 'xr-')
+plot(rad2deg(alpha), Cl_fit(alpha), 'xk-')
 hold on
-plot(rad2deg(alpha), Cl, 'ok-')
+plot(rad2deg(alpha), Cl, 'o')
+ylabel('C_{L} [-]')
+xlabel('\alpha [degree]')
 
 figure(2)
-plot(Cl_fit(alpha), Cd_fit(Cl_fit(alpha)), 'xr-')
+plot(Cl_fit(alpha), Cd_fit(Cl_fit(alpha)), 'xk-')
 hold on
-plot(Cl_fit(alpha), Cd, 'ok-')
+plot(Cl_fit(alpha), Cd, 'o')
+ylabel('C_{D} [-]')
+xlabel('C_{L} [-]')
+
+figure(3)
+plot(alpha, Cd_fit(Cl_fit(alpha)), 'xk-')
+hold on
+plot(alpha, Cd, 'o')
+ylabel('C_{D} [-]')
+xlabel('\alpha')
+
+figure(4)
+plot(Cl_fit(alpha).^2, Cd_fit(Cl_fit(alpha)), 'xk-')
+hold on
+plot(Cl_fit(alpha).^2, Cd, 'o')
+ylabel('C_{D}')
+xlabel('C_{L}^{2}')
+
+disp('')
+disp('-------These plots are obtained in the following conditions-------')
+disp('')
+%% Aircraft configuration
+disp('Aircraft has gears and flaps up')
+
+%% Mach number range
+M_range = string(num2str(min(M),'%.4f'))+' - '+string(num2str(max(M),'%.4f'));
+disp('Mach number range is '+M_range)
+
+%% Reynolds number range
+% Function for dynamic viscosity
+mu0 = 18.27e-6;     %[Pa*s]
+T0 = 291.15;        %[K]
+C = 120;            %[K]
+
+mu= @(T) mu0*(T0+C)./(T+C).*(T/T0).^(3/2);
+
+Re = rho.*V_t.*c.c./mu(TAT);
+Re_range = string(num2str(min(Re),'%.3d'))+' - '+string(num2str(max(Re),'%.3d'));
+disp('Reynolds number range is '+Re_range)
+
+%% Display coefficients on screen
+disp('')
+disp('-------Next the coefficients derived from the flight test data are-------')
+disp('')
+disp('alpha_{0} = '+string(alpha0))
+disp('C_{L_{alpha}} = '+string(Cla))
+disp('e = '+string(e))
+disp('Cd_{0}'+string(Cd0))
