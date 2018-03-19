@@ -5,15 +5,15 @@ moment_list = [298.16,591.18,879.08,1165.42,1448.40,1732.53,2014.80,2298.84,2581
 cg_fuel = zeros(1,length(fuel));
 
 for i = 1:length(fuel)
-    Fuel_left = fuel_list(fuel_list<fuel);
+    Fuel_left = fuel_list(fuel_list<fuel(i));
     Fuel_lower = Fuel_left(end);
     Moment_lower = moment_list(find(fuel_list == Fuel_lower));
     
-    Fuel_right = fuel_list(fuel_list>fuel);
+    Fuel_right = fuel_list(fuel_list>fuel(i));
     Fuel_higher = Fuel_right(1);
     Moment_higher = moment_list(find(fuel_list == Fuel_higher));
     
-    Moment_fuel = (fuel(i)-fuel_lower)/(fuel_higher-fuel_lower)*(Moment_higher-Moment_lower) + ...
+    Moment_fuel = (fuel(i)-Fuel_lower)/(Fuel_higher-Fuel_lower)*(Moment_higher-Moment_lower) + ...
         Moment_lower;
     
     cg_fuel(i) = Moment_fuel/fuel(i);
