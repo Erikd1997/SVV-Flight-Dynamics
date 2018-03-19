@@ -5,15 +5,16 @@ T_temp_ISA = c.Temp0 + c.lambda*hp_col;
 
 Delta_T_temp_col = T_temp_col - T_temp_ISA;
 
-% fid = fopen('matlab.dat','w');
-% textarray = string(num2str(hp_col,4))+' '+string(num2str(M_col,4))+' '+string(num2str(Mf1_col,4))+' '+string(num2str(Mf2_col,4))+' '+string(num2str(Delta_T_temp_col,4));
-% text = textarray(1);
-% for i = 2:length(textarray)
-%     text = text + '\r\n' + textarray(i);
-% end
-% %The matlab.dat file is written and saved
-% fprintf(fid,text);
-% fclose(fid);
+digits = 4;
+fid = fopen('matlab.dat','w');
+textarray = string(num2str(hp_col,digits))+' '+string(num2str(M_col,digits))+' '+string(num2str(Delta_T_temp_col,digits))+' '+string(num2str(Mf2_col,digits))+' '+string(num2str(Mf1_col,digits));
+text = textarray(1);
+for i = 2:length(textarray)
+    text = text + '\r\n' + textarray(i);
+end
+%The matlab.dat file is written and saved
+fprintf(fid,text);
+fclose(fid);
 
 %% Run the thrust calculations
 !Thrust.exe
@@ -21,5 +22,5 @@ Delta_T_temp_col = T_temp_col - T_temp_ISA;
 %% Save the thrust values
 fid = fopen('Thrust.dat','r');
 Result = fscanf(fid,'%f',[2 length(textarray)]);
-T = Result(1,:)';
+T = Result';
 end

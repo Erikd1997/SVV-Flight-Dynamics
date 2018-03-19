@@ -6,16 +6,16 @@ c = load('Cit_par.mat');
 c.Temp0 = 19+273.15;
 
 %% Stationary measurements series 1 processing
-hp_meas = [6040;6035;6030;6040;6030;6040];  %[ft]
-IAS_meas = [251;222;192;165;130;115];       %[kts]
-alpha_meas = [1.3;2.0;3.0;4.5;8.3;10.1];    %[deg]
-FFl_meas = [786;637;515;458;414;373];       %[lbs/hr]
-FFr_meas = [776;650;548;470;435;385];       %[lbs/hr]
-Fused_meas = [410;450;487;540;574;604];     %[lbs]
-TAT_meas = [10.5;8.2;6.1;4.8;3.5;3.0];      %[degree C]
+hp_meas = [5064;5063;5070;5060;5065;5050];  %[ft]
+IAS_meas = [248.3;220.3;193.3;160.3;143.5;113];       %[kts]
+alpha_meas = [1.47;2.1;3.1;5.1;6.5;11];    %[deg]
+FFl_meas = [770;674;553.8;453.8;429.8;424];       %[lbs/hr]
+FFr_meas = [783.3;684.2;573.6;481.3;451.7;445];       %[lbs/hr]
+Fused_meas = [395.83;426.5;457.2;480.8;500.8;539];     %[lbs]
+TAT_meas = [9;7.2;5.2;3.8;2.65;1.8];      %[degree C]
 
 %Initial parameters
-Wi = 2800*0.45359237+ 92+95+76+61+59+66+77+84 +3655;              %[lbs]
+Wi = 2000*0.45359237+ 92+82+130+78+73+75+89+74.5+92 +3655;              %[lbs]
 
 %Convert all measurements to SI units
 hp = hp_meas * 0.3048;
@@ -30,7 +30,7 @@ T = ThrustFile(c, hp, M, FFl, FFr, TAT);
 
 %Construct graphs
 Cl = weight./(0.5.*rho.*c.S.*V_t.^(2));
-Cd = 2*T./(0.5.*rho.*c.S.*V_t.^(2));
+Cd = (T(:,1)+T(:,2))./(0.5.*rho.*c.S.*V_t.^(2));
 
 Cl_fit_f = fittype('b*(x-a)');
 Cd_fit_f = fittype('a + b*x^2');
