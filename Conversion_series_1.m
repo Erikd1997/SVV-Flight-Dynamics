@@ -8,7 +8,7 @@ c.Temp0 = 19+273.15;
 
 
 %Aircraft empty weight
-BEM = 9165*0.45359237;      % [kg]
+BEM = 9165;      % [lbs]
 
 %% Stationary measurements series 1 processing
 datasheet = 'Post_Flight_Datasheet_Flight_2_DD_14_3_2018.xlsx'; %name
@@ -21,7 +21,7 @@ datasheet = 'Post_Flight_Datasheet_Flight_2_DD_14_3_2018.xlsx'; %name
 T = ThrustFile(c, hp, M, TAT, FFl, FFr);
 
 %Construct graphs
-Cl = weight./(0.5.*rho.*c.S.*V_t.^(2));
+Cl = 9.81*weight./(0.5.*rho.*c.S.*V_t.^(2));
 Cd = (T(:,1)+T(:,2))./(0.5.*rho.*c.S.*V_t.^(2));
 
 %Fit Cl and Cd
