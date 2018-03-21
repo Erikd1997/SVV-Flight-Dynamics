@@ -47,7 +47,7 @@ plot(rad2deg(alpha), Cl_fit(alpha), 'xk-')
 hold on
 plot(rad2deg(alpha), Cl, 'o')
 ylabel('C_{L} [-]')
-xlabel('\alpha [degree]')
+xlabel('\alpha [deg]')
 
 figure(2)
 plot(Cl_fit(alpha), Cd_fit(Cl_fit(alpha)), 'xk-')
@@ -61,14 +61,14 @@ plot(alpha, Cd_fit(Cl_fit(alpha)), 'xk-')
 hold on
 plot(alpha, Cd, 'o')
 ylabel('C_{D} [-]')
-xlabel('\alpha')
+xlabel('\alpha [deg]')
 
 figure(4)
 plot(Cl_fit(alpha).^2, Cd_fit(Cl_fit(alpha)), 'xk-')
 hold on
 plot(Cl_fit(alpha).^2, Cd, 'o')
-ylabel('C_{D}')
-xlabel('C_{L}^{2}')
+ylabel('C_{D} [-]')
+xlabel('C_{L}^{2} [-]')
 
 disp('')
 disp('-------These plots are obtained in the following conditions-------')
