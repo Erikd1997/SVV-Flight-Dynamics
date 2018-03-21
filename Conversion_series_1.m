@@ -12,7 +12,8 @@ BEM = 9165;      % [lbs]
 
 %% Stationary measurements series 1 processing
 datasheet = 'Post_Flight_Datasheet_Flight_2_DD_14_3_2018.xlsx'; %name
-[~, hp, IAS_SI, alpha, FFl, FFr, F_used, TAT_K, weight] = ExcelReader_S1(datasheet, BEM);
+[~, hp, IAS_SI, alpha, FFl, FFr, F_used, TAT_K, mass] = ExcelReader_S1(datasheet, BEM);
+weight = mass*9.80665;
 
 %Convert velocity
 [~, V_t, TAT, M, rho] = reduced_eq_airspeed(IAS_SI, hp, TAT_K, weight, 0);
@@ -21,7 +22,7 @@ datasheet = 'Post_Flight_Datasheet_Flight_2_DD_14_3_2018.xlsx'; %name
 T = ThrustFile(c, hp, M, TAT, FFl, FFr);
 
 %Construct graphs
-Cl = 9.81*weight./(0.5.*rho.*c.S.*V_t.^(2));
+Cl = weight./(0.5.*rho.*c.S.*V_t.^(2));
 Cd = (T(:,1)+T(:,2))./(0.5.*rho.*c.S.*V_t.^(2));
 
 %Fit Cl and Cd
