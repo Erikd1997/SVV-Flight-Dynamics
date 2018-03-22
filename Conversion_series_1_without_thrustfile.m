@@ -19,7 +19,13 @@ weight = mass*9.80665;
 [~, V_t, TAT, M, rho] = reduced_eq_airspeed(IAS_SI, hp, TAT_K, weight, 0);
 
 %Find thrust
-T = ThrustFile(c, hp, M, TAT, FFl, FFr);
+%T = ThrustFile(c, hp, M, TAT, FFl, FFr);
+T=[3879.99	3705 ;
+2956.79	2873.51 ;
+2483.68	2341.58 ;
+2149.29	1931.73 ;
+1923.11	1673.57 ;
+2099.52	1917.68];
 
 %Construct graphs
 Cl = weight./(0.5.*rho.*c.S.*V_t.^(2));
@@ -67,7 +73,7 @@ figure(4)
 plot(Cl_fit(alpha).^2, Cd_fit(Cl_fit(alpha)), 'xk-')
 hold on
 plot(Cl_fit(alpha).^2, Cd, 'o')
-ylabel('C_{D} [-]')
+ylabel('C_{D}')
 xlabel('C_{L}^{2} [-]')
 
 disp('')
