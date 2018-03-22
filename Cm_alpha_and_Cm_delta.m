@@ -50,7 +50,11 @@ Cm_d = -(1/Delta_de_s3)*C_N*Delta_cg/c.c;
 %These calculations use measurement series 2.
 
 W_s2 = -F_used_s2 + Wi;
+<<<<<<< HEAD
 [V_r_eq_s2, V_t_s2, Temp_s2, M_s2, rho_s2] = reduced_eq_airspeed(Vc_s2, hp_s2, TAT_s2, W_s2, Ws);
+=======
+[V_r_eq, V_t_s2, Temp_s2, M_s2, rho_s2] = reduced_eq_airspeed(IAS_s2, hp_s2, TAT_s2, W_s2, Ws);
+>>>>>>> 1513f994b678d122aca6dedc06d43c1968494faa
 
 [hp_s2, Vc_s2, Temp_s2, p_s2, rho_s2] = ISA_converted(hp_s2, Vc_s2, TAT_s2);
 
