@@ -4,10 +4,10 @@ function [sysS, sysA] = state_space_system(c)
 
 %% Symmetric model
 % Defining C1, C2 and C3
-C1_S = [-2*c.muc*c.c/c.V0^2,             0,               0,               0             ;
-               0,           (c.CZadot-2*c.muc)*c.c/c.V0,  0,               0             ;
-               0,                        0,               1,               0             ;
-               0                 c.Cmadot*c.c/c.V0,       0,  -2*c.muc*c.KY2*(c.c/c.V0)^2];
+% C1_S = [-2*c.muc*c.c/c.V0^2,             0,               0,               0             ;
+%                0,           (c.CZadot-2*c.muc)*c.c/c.V0,  0,               0             ;
+%                0,                        0,               1,               0             ;
+%                0                 c.Cmadot*c.c/c.V0,       0,  -2*c.muc*c.KY2*(c.c/c.V0)^2];
 
 % C1_S = [-2*c.muc*c.c/c.V0,             0,                 0,               0             ;
 %                0,           (c.CZadot-2*c.muc)*c.c/c.V0,  0,               0             ;
