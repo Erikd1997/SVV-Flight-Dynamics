@@ -10,13 +10,13 @@ alpha0 = deg2rad(0);   % angle of attack in the stationary flight condition [rad
 th0    = deg2rad(0);   % pitch angle in the stationary flight condition [rad]
 
 % aerodynamic properties
-e      = 0.8;            % Oswald factor [ ]
-CD0    = 0.04;            % Zero lift drag coefficient [ ]
-CLa    = 5.084;            % Slope of CL-alpha curve [ ]
+e      = 0.7857;            % Oswald factor [ ]
+CD0    = 0.022048;          % Zero lift drag coefficient [ ]
+CLa    = 4.481;            % Slope of CL-alpha curve [ ]
 
 % Longitudinal stability
-Cma    = -0.5626;            % longitudinal stabilty [ ]
-Cmde   = -1.1642;            % elevator effectiveness [ ]
+Cma    = -0.5524;            % longitudinal stabilty [ ]
+Cmde   = -1.2669;            % elevator effectiveness [ ]
 
 % Aircraft geometry
 

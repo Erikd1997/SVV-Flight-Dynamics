@@ -41,25 +41,25 @@ sysS.OutputName = {'u', '\alpha', '\theta', 'q'};
 
 %% Asymmetric model
 % Defining C1, C2 and C3
-% C1_A = [(c.CYbdot-2*c.mub)*c.b/c.V0, 0,                  0,                          0             ;
-%                     0,               1,                  0,                          0             ;
-%                     0,               0,   -2*c.mub*c.KX2*(c.b/c.V0)^2,   2*c.mub*c.KXZ*(c.b/c.V0)^2;
-%            c.Cnbdot*c.b/c.V0,        0,    2*c.mub*c.KXZ*(c.b/c.V0)^2,  -2*c.mub*c.KZ2*(c.b/c.V0)^2];
-
 C1_A = [(c.CYbdot-2*c.mub)*c.b/c.V0, 0,                  0,                          0             ;
-                    0,            c.b/(2*c.V0),              0,                          0             ;
-                    0,               0,   -4*c.mub*c.KX2*c.b/c.V0,   4*c.mub*c.KXZ*c.b/c.V0;
-           c.Cnbdot*c.b/c.V0,        0,    4*c.mub*c.KXZ*c.b/c.V0,  -4*c.mub*c.KZ2*c.b/c.V0];
+                    0,               1,                  0,                          0             ;
+                    0,               0,   -2*c.mub*c.KX2*(c.b/c.V0)^2,   2*c.mub*c.KXZ*(c.b/c.V0)^2;
+           c.Cnbdot*c.b/c.V0,        0,    2*c.mub*c.KXZ*(c.b/c.V0)^2,  -2*c.mub*c.KZ2*(c.b/c.V0)^2];
 
-% C2_A = [c.CYb, c.CL, c.CYp*c.b/(2*c.V0), c.b/(2*c.V0)*(c.CYr-4*c.mub);
-%           0,     0,        -1,                       0               ;
-%         c.Clb,   0,  c.Clp*c.b/(2*c.V0),      c.Clr*c.b/(2*c.V0)     ;
-%         c.Cnb,   0,  c.Cnp*c.b/(2*c.V0),      c.Cnr*c.b/(2*c.V0)     ];
+% C1_A = [(c.CYbdot-2*c.mub)*c.b/c.V0, 0,                  0,                          0             ;
+%                     0,            c.b/(2*c.V0),              0,                          0             ;
+%                     0,               0,   -4*c.mub*c.KX2*c.b/c.V0,   4*c.mub*c.KXZ*c.b/c.V0;
+%            c.Cnbdot*c.b/c.V0,        0,    4*c.mub*c.KXZ*c.b/c.V0,  -4*c.mub*c.KZ2*c.b/c.V0];
 
-C2_A = [c.CYb, c.CL, c.CYp, c.CYr-4*c.mub;
-          0,     0,   -1,        0;
-        c.Clb,   0,  c.Clp,    c.Clr;
-        c.Cnb,   0,  c.Cnp,    c.Cnr];
+C2_A = [c.CYb, c.CL, c.CYp*c.b/(2*c.V0), c.b/(2*c.V0)*(c.CYr-4*c.mub);
+          0,     0,        -1,                       0               ;
+        c.Clb,   0,  c.Clp*c.b/(2*c.V0),      c.Clr*c.b/(2*c.V0)     ;
+        c.Cnb,   0,  c.Cnp*c.b/(2*c.V0),      c.Cnr*c.b/(2*c.V0)     ];
+
+% C2_A = [c.CYb, c.CL, c.CYp, c.CYr-4*c.mub;
+%           0,     0,   -1,        0;
+%         c.Clb,   0,  c.Clp,    c.Clr;
+%         c.Cnb,   0,  c.Cnp,    c.Cnr];
 
 C3_A = [c.CYda, c.CYdr;
           0,       0  ;
