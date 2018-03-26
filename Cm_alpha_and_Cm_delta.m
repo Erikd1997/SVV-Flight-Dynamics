@@ -1,8 +1,8 @@
 close all
 clear all
 
-%This program handles the calculation of Cm_alpha and Cm_delta from our
-%flight test data.
+%% This program handles the calculation of Cm_alpha and Cm_delta from our
+%% flight test data.
 
 %First, import the data from the excel file and convert them into SI-units:
 datasheet = 'Post_Flight_Datasheet_Flight_2_DD_14_3_2018.xlsx';
@@ -28,7 +28,7 @@ FFr_s2         = convvel((convmass(xlsread(datasheet, 'K59:K65'), 'lbm', 'kg')),
 F_used_s2      = convmass(xlsread(datasheet, 'L59:L65'), 'lbm', 'kg');
 TAT_s2         = convtemp(xlsread(datasheet, 'M59:M65'), 'C', 'K');
 
-%Start with computing Cm_d:
+%% Start with computing Cm_d:
 Vc_s3        = convvel(mean(xlsread(datasheet, 'E75:E76')), 'kts', 'm/s');
 hp_s3        = mean(xlsread(datasheet, 'D75:D76')).*unitsratio('meter', 'feet');
 TAT_s3       = convtemp(mean(xlsread(datasheet, 'M75:M76')), 'C', 'K');
@@ -45,7 +45,7 @@ Delta_cg = -0.0537;
 
 Cm_d = -(1/Delta_de_s3)*C_N*Delta_cg/c.c;
 
-%--------------------------------------------------------------------------
+%% ------------------------------------------------------------------------
 %Now start computing Cm_alpha, by first obtaining the reduced airspeed. 
 %These calculations use measurement series 2.
 
