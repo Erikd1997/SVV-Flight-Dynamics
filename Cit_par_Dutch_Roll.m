@@ -2,12 +2,44 @@
 
 % xcg = 0.25*c
 
-% Stationary flight condition
+datasheet = 'Post_Flight_Datasheet_Flight_2_DD_14_3_2018.xlsx';
+flight = load('FTISxprt-20180314_101817.mat');
+fd = flight.flightdata;
 
-hp0    = 0; % pressure altitude in the stationary flight condition [m]
-V0     = 0;         % true airspeed in the stationary flight condition [m/sec]
-alpha0 = deg2rad(0);   % angle of attack in the stationary flight condition [rad]
-th0    = deg2rad(0);   % pitch angle in the stationary flight condition [rad]
+%First save necessary data
+da = fd.delta_a.data;
+de = fd.delta_e.data;
+dr = fd.delta_r.data;
+time = fd.time.data';
+
+Roll = fd.Ahrs1_Roll.data;                              %[rad]
+Pitch = fd.Ahrs1_Pitch.data;                            %[rad]
+RollRate = fd.Ahrs1_bRollRate.data;                     %[rad/s]
+PitchRate = fd.Ahrs1_bPitchRate.data;                   %[rad/s]
+YawRate = fd.Ahrs1_bYawRate.data;                       %[rad/s]
+AOA = fd.vane_AOA.data;                                 %[rad]
+TAS = fd.Dadc1_tas.data*0.514444444;                    %[m/s]
+hp = fd.Dadc1_alt.data*0.3048;                          %[m]
+FMF_left = fd.lh_engine_FMF.data/3600;                  %[kg]
+FMF_right = fd.rh_engine_FMF.data/3600;                 %[kg]
+Wi = (xlsread(datasheet,'D18:D18')+9165)*0.45359237...  %[kg]
+    + sum(xlsread(datasheet,'H8:H16'));
+
+t_DutchRoll = (44*60+43.7)  *10;
+DutchRoll_length = 20       *10;
+
+FU = zeros(length(time),1);
+for i = 2:length(time)
+    FU(i)   = trapz(time(1:i),FMF_left(1:i)) + trapz(time(1:i),FMF_right(1:i)); %[kg]
+end
+
+% Stationary flight condition
+FU_DutchRoll = FU(t_DutchRoll);     % [kg]
+hp0    = hp(t_DutchRoll);               % pressure altitude in the stationary flight condition [m]
+V0     = TAS(t_DutchRoll);              % true airspeed in the stationary flight condition [m/sec]
+alpha0 = deg2rad(AOA(t_DutchRoll));     % angle of attack in the stationary flight condition [rad]
+th0    = deg2rad(Pitch(t_DutchRoll));   % pitch angle in the stationary flight condition [rad]
+m      = Wi - FU_DutchRoll;         % [kg]
 
 % aerodynamic properties
 e      = 0.7857;            % Oswald factor [ ]
@@ -43,10 +75,7 @@ g      = 9.81;            % [m/sec^2] (gravity constant)
 p0     = 101325;          % [Pa]
 
 rho    = rho0*((1+(lambda*hp0/Temp0)))^(-((g/(lambda*R))+1));   % [kg/m^3]  (air density)
-W      = (CLa*alpha0)*0.5*rho*V0^(2)*S;
-
-% Aircraft mass
-m      = W/g;       	  % mass [kg]
+W      = m*g;
 
 % Constant values concerning aircraft inertia
 
