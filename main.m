@@ -1,4 +1,4 @@
-clc
+%clc
 close all
 clear
 
@@ -18,8 +18,8 @@ datasheet = 'Post_Flight_Datasheet_Flight_2_DD_14_3_2018.xlsx';
 
 %Which plots should appear?
 plot_DutchRoll = true;
-plot_Phugoid = true;
-plot_ShortPeriod = true;
+plot_Phugoid = false;
+plot_ShortPeriod = false;
 plot_AperiodicRoll = true;
 plot_Spiral = true;
 
@@ -38,8 +38,8 @@ YawRate = (flight.flightdata.Ahrs1_bYawRate.data);
 AOA = (flight.flightdata.vane_AOA.data);
 TAS = flight.flightdata.Dadc1_tas.data*0.514444444;
 hp = flight.flightdata.Dadc1_alt.data;
-FU_left = flight.flightdata.lh_engine_FU.data*0.45359237;
-FU_right = flight.flightdata.rh_engine_FU.data*0.45359237;
+FU_left = flight.flightdata.lh_engine_FU.data;
+FU_right = flight.flightdata.rh_engine_FU.data;
 Wi = (9165+2800)*0.45359237 + 82+92+67+81+80+75+83+76+95;
 
 %Read times of each manoeuvre from datasheet
@@ -48,15 +48,15 @@ t_DutchRoll_YD = 44*60      *10;
 t_Phugoid = (49*60+10)      *10;
 t_ShortPeriod = (47*60+50.5)*10;
 t_AperiodicRoll = (46*60+57)*10;
-t_Spiral = (54*60+45)       *10;
+t_Spiral = (54*60+58)       *10;
 
 %Specify how long each manoeuvre takes
 DR_length = 20              *10;
 DR_YD_length = 70           *10;
 Phugoid_length = 200        *10;
 ShortPeriod_length = 10     *10;
-AperiodicRoll_length = 30   *10;
-Spiral_length = 100         *10;
+AperiodicRoll_length = 15   *10;
+Spiral_length = 80         *10;
 
 %Dutch Roll
 dr_DutchRoll = dr(t_DutchRoll:t_DutchRoll+DR_length);
@@ -105,37 +105,36 @@ time_Spiral = time_Spiral - time_Spiral(1);
 
 %% Solve simulations of each manouevre
 %------Dutch Roll------
-c.hp0 = hp(t_DutchRoll)*0.3048;
-c.V0 = TAS(t_DutchRoll);
+c.hp0    = hp(t_DutchRoll)*0.3048;
+c.V0     = TAS(t_DutchRoll);
 c.alpha0 = deg2rad(AOA(t_DutchRoll));
-c.th0 = deg2rad(Pitch(t_DutchRoll));
-c.rho = c.rho0*((1+(c.lambda*c.hp0/c.Temp0)))^(-((c.g/(c.lambda*c.R))+1));
-c.m = Wi - FU_left(t_DutchRoll) - FU_right(t_DutchRoll);
-c.W = c.m*c.g;
+c.th0    = deg2rad(Pitch(t_DutchRoll));
+c.rho    = c.rho0*((1+(c.lambda*c.hp0/c.Temp0)))^(-((c.g/(c.lambda*c.R))+1));
+c.m      = Wi - FU_left(t_DutchRoll) - FU_right(t_DutchRoll);
+c.W      = c.m*c.g;
 c.muc    = c.m/(c.rho*c.S*c.c);
 c.mub    = c.m/(c.rho*c.S*c.b);
-c.CL = 2*c.W/(c.rho*c.V0^2*c.S);
-c.CD = c.CD0 + (c.alpha0*c.CLa)^2/(pi*c.A*c.e);
+c.CL     = 2*c.W/(c.rho*c.V0^2*c.S);
+c.CD     = c.CD0 + (c.alpha0*c.CLa)^2/(pi*c.A*c.e);
 c.CX0    = c.W*sin(c.th0)/(0.5*c.rho*c.V0^2*c.S);
 c.CZ0    = -c.W*cos(c.th0)/(0.5*c.rho*c.V0^2*c.S);
 
 %Create state-space-system
 [~, sysA_DutchRoll] = state_space_system(c);
 
-%Initial state
-x0_DutchRoll = [deg2rad(Roll(t_DutchRoll)), 0, deg2rad(RollRate(t_DutchRoll)), deg2rad(YawRate(t_DutchRoll))];
-
 %Save and non-dimensionalize eigenvalues
 eig_DutchRoll = eig(sysA_DutchRoll)*c.b/c.V0;
 
+%Initial condition
+x0 = deg2rad([0, Roll_DutchRoll(1), RollRate_DutchRoll(1), YawRate_DutchRoll(1)]);
 %Simulate using state space system
-y_DutchRoll = lsim(sysA_DutchRoll, deg2rad([da_DutchRoll dr_DutchRoll]), time_DutchRoll, x0_DutchRoll);
+y_DutchRoll = lsim(sysA_DutchRoll, deg2rad([da_DutchRoll -dr_DutchRoll]), time_DutchRoll, x0);
 
 % Transform
 y_DutchRoll(:,1) = rad2deg(y_DutchRoll(:,1));
 y_DutchRoll(:,2) = rad2deg(y_DutchRoll(:,2));
 y_DutchRoll(:,3) = rad2deg(y_DutchRoll(:,3));
-y_DutchRoll(:,4) = rad2deg(y_DutchRoll(:,3));
+y_DutchRoll(:,4) = rad2deg(y_DutchRoll(:,4));
 
 %------Phugoid------
 c.hp0 = hp(t_Phugoid)*0.3048;
@@ -155,15 +154,11 @@ c.CZ0    = -c.W*cos(c.th0)/(0.5*c.rho*c.V0^2*c.S);
 %Create state-space-system
 [sysS_Phugoid, ~] = state_space_system(c);
 
-%Initial state
-x0_Phugoid = [0, 0, 0, deg2rad(PitchRate(t_Phugoid))];
-
 %Save and non-dimensionalize eigenvalues
 eig_Phugoid = eig(sysS_Phugoid)*c.c/c.V0;
 
 %Simulate using state space system
-y_Phugoid = lsim(sysS_Phugoid, deg2rad(de_Phugoid), time_Phugoid, x0_Phugoid);
-
+y_Phugoid = lsim(sysS_Phugoid, deg2rad(de_Phugoid), time_Phugoid);
 % Transform
 y_Phugoid(:,1) = y_Phugoid(:,1)+c.V0;
 y_Phugoid(:,2) = rad2deg(y_Phugoid(:,2) + c.alpha0);
@@ -191,11 +186,8 @@ c.CZ0    = -c.W*cos(c.th0)/(0.5*c.rho*c.V0^2*c.S);
 %Save and non-dimensionalize eigenvalues
 eig_ShortPeriod = eig(sysS_ShortPeriod)*c.c/c.V0;
 
-%Initial state
-x0_ShortPeriod = [0, 0, 0, deg2rad(PitchRate(t_ShortPeriod))];
-
 %Simulate using state space system
-y_ShortPeriod = lsim(sysS_ShortPeriod, deg2rad(de_ShortPeriod), time_ShortPeriod, x0_ShortPeriod);
+y_ShortPeriod = lsim(sysS_ShortPeriod, deg2rad(de_ShortPeriod), time_ShortPeriod);
 
 % Transform
 y_ShortPeriod(:,1) = y_ShortPeriod(:,1)+c.V0;
@@ -221,20 +213,20 @@ c.CZ0    = -c.W*cos(c.th0)/(0.5*c.rho*c.V0^2*c.S);
 %Create state-space-system
 [~, sysA_AperiodicRoll] = state_space_system(c);
 
-%Initial state
-x0_AperiodicRoll = [deg2rad(Roll(t_AperiodicRoll)), 0, deg2rad(RollRate(t_AperiodicRoll)), deg2rad(YawRate(t_AperiodicRoll))];
+%Initial condition
+x0 = [0, deg2rad(Roll_AperiodicRoll(1)), deg2rad(RollRate_AperiodicRoll(1)), deg2rad(YawRate_AperiodicRoll(1))];
 
 %Save and non-dimensionalize eigenvalues
 eig_AperiodicRoll = eig(sysA_AperiodicRoll)*c.b/c.V0;
 
 %Simulate using state space system
-y_AperiodicRoll = lsim(sysA_AperiodicRoll, deg2rad([da_AperiodicRoll dr_AperiodicRoll]), time_AperiodicRoll, x0_AperiodicRoll);
+y_AperiodicRoll = lsim(sysA_AperiodicRoll, deg2rad([da_AperiodicRoll-da_AperiodicRoll(1) dr_AperiodicRoll-dr_AperiodicRoll(1)]), time_AperiodicRoll, x0);
 
 % Transform
 y_AperiodicRoll(:,1) = rad2deg(y_AperiodicRoll(:,1));
 y_AperiodicRoll(:,2) = rad2deg(y_AperiodicRoll(:,2));
 y_AperiodicRoll(:,3) = rad2deg(y_AperiodicRoll(:,3));
-y_AperiodicRoll(:,4) = rad2deg(y_AperiodicRoll(:,3));
+y_AperiodicRoll(:,4) = rad2deg(y_AperiodicRoll(:,4));
 
 %------Spiral------
 c.hp0 = hp(t_Spiral)*0.3048;
@@ -255,7 +247,7 @@ c.CZ0    = -c.W*cos(c.th0)/(0.5*c.rho*c.V0^2*c.S);
 [~, sysA_Spiral] = state_space_system(c);
 
 %Initial state
-x0_Spiral = [deg2rad(Roll(t_Spiral)), 0, deg2rad(RollRate(t_Spiral)), deg2rad(YawRate(t_Spiral))];
+x0_Spiral = [0, deg2rad(Roll(t_Spiral)), deg2rad(RollRate(t_Spiral)), deg2rad(YawRate(t_Spiral))];
 
 %Save and non-dimensionalize eigenvalues
 eig_Spiral = eig(sysA_Spiral)*c.b/c.V0;
@@ -267,33 +259,33 @@ y_Spiral = lsim(sysA_Spiral, deg2rad([da_Spiral dr_Spiral]), time_Spiral, x0_Spi
 y_Spiral(:,1) = rad2deg(y_Spiral(:,1));
 y_Spiral(:,2) = rad2deg(y_Spiral(:,2));
 y_Spiral(:,3) = rad2deg(y_Spiral(:,3));
-y_Spiral(:,4) = rad2deg(y_Spiral(:,3));
+y_Spiral(:,4) = rad2deg(y_Spiral(:,4));
 
 %% Plot Measurements
 %Dutch Roll
 if plot_DutchRoll
     figure
     subplot(4,1,1)
-    plot(time_DutchRoll, [RollRate_DutchRoll y_DutchRoll(:,4)])
+    plot(time_DutchRoll, [RollRate_DutchRoll y_DutchRoll(:,3)])
     ylabel('r (deg/s)')
     xlabel('t (s)')
     title('Roll Rate - Dutch Roll')
     subplot(4,1,2)
-    plot(time_DutchRoll, [YawRate_DutchRoll y_DutchRoll(:,3)])
+    plot(time_DutchRoll, [YawRate_DutchRoll y_DutchRoll(:,4)])
     ylabel('p (deg/s)')
     xlabel('t (s)')
     title('Yaw Rate - Dutch Roll')
     subplot(4,1,3)
-    plot([RollRate_DutchRoll y_DutchRoll(:,4)], [YawRate_DutchRoll y_DutchRoll(:,3)])
+    plot([RollRate_DutchRoll y_DutchRoll(:,3)], [YawRate_DutchRoll y_DutchRoll(:,4)])
     ylabel('p (deg/s)')
     xlabel('r (deg/s)')
     title('Roll rate vs Yaw rate - Dutch Roll')
     subplot(4,1,4)
-    plot(time_DutchRoll, [dr_DutchRoll da_DutchRoll])
+    plot(time_DutchRoll, [da_DutchRoll dr_DutchRoll])
     xlabel('t (s)')
     ylabel('da (deg)')
     xlabel('t (s)')
-    title('Aileron Deflection - Dutch Roll')
+    title('Aileron Deflection (blue), Rudder Deflection (red) - Dutch Roll')
 end
 
 %Phugoid
@@ -360,13 +352,13 @@ end
 if plot_AperiodicRoll
     figure
     subplot(3,1,1)
-    plot(time_AperiodicRoll, [Roll_AperiodicRoll y_AperiodicRoll(:,1)])
-    ylabel('r (deg/s)')
+    plot(time_AperiodicRoll, [Roll_AperiodicRoll y_AperiodicRoll(:,2)])
+    ylabel('\phi (deg/s)')
     xlabel('t (s)')
     title('Roll Angle - Aperiodic Roll')
     subplot(3,1,2)
     plot(time_AperiodicRoll, [RollRate_AperiodicRoll y_AperiodicRoll(:,3)])
-    ylabel('p (deg/s)')
+    ylabel('r (deg/s)')
     xlabel('t (s)')
     title('Roll Rate - Aperiodic Roll')
     subplot(3,1,3)
@@ -379,19 +371,24 @@ end
 %Spiral
 if plot_Spiral
     figure
-    subplot(3,1,1)
-    plot(time_Spiral, [Roll_Spiral y_Spiral(:,1)])
-    ylabel('r (deg/s)')
+    subplot(4,1,1)
+    plot(time_Spiral, [Roll_Spiral y_Spiral(:,2)])
+    ylabel('\phi (deg)')
     xlabel('t (s)')
     title('Roll Angle - Spiral')
-    subplot(3,1,2)
-    plot(time_Spiral, [RollRate_Spiral y_Spiral(:,3)])
+    subplot(4,1,2)
+    plot(time_Spiral, [YawRate_Spiral y_Spiral(:,4)])
     ylabel('p (deg/s)')
     xlabel('t (s)')
+    title('Yaw Rate - Spiral')
+    subplot(4,1,3)
+    plot(time_Spiral, [RollRate_Spiral y_Spiral(:,3)])
+    ylabel('r (deg/s)')
+    xlabel('t (s)')
     title('Roll Rate - Spiral')
-    subplot(3,1,3)
-    plot(time_Spiral, da_Spiral)
+    subplot(4,1,4)
+    plot(time_Spiral, [da_Spiral dr_Spiral])
     ylabel('da (deg)')
     xlabel('t (s)')
-    title('Aileron Deflection - Spiral')
+    title('Aileron Deflection (blue), Rudder Deflection (red) - Spiral')
 end
