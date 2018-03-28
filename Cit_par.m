@@ -4,6 +4,7 @@
 
 % Stationary flight condition
 
+
 hp0    = 1833; % pressure altitude in the stationary flight condition [m]
 V0     = 86.46;         % true airspeed in the stationary flight condition [m/sec]
 alpha0 = deg2rad(5.2);   % angle of attack in the stationary flight condition [rad]
@@ -22,7 +23,6 @@ CLa    = 4.481;            % Slope of CL-alpha curve [ ]
 Cma    = -0.6591;            % longitudinal stabilty [ ]
 Cmde   = -1.5435;            % elevator effectiveness [ ]
 
-
 % Aircraft geometry
 
 S      = 30.00;	          % wing area [m^2]
@@ -36,7 +36,6 @@ bh     = 5.791;	          % stabilser span [m]
 A      = b^2/S;           % wing aspect ratio [ ]
 Ah     = bh^2/Sh;         % stabilser aspect ratio [ ]
 Vh_V   = 1;		          % [ ]
-ih     = -2*pi/180;       % stabiliser angle of incidence [rad]
 
 % Constant values concerning atmosphere and gravity
 
@@ -96,7 +95,7 @@ CYb    = -0.7500;
 CYbdot =  0     ;
 CYp    = -0.0304;
 CYr    = +0.8495;
-CYda   = +0.0400;
+CYda   = -0.0400;
 CYdr   = +0.2300;
 
 Clb    = -0.10260;
@@ -105,9 +104,9 @@ Clr    = +0.23760;
 Clda   = -0.23088;
 Cldr   = +0.03440;
 
-Cnb    = +0.1348;
-Cnbdot = 0     ;
-Cnp    = -0.0602;
-Cnr    = -0.2061;
-Cnda   = -0.0120;
-Cndr   = -0.0939;
+Cnb    =  +0.1348;
+Cnbdot =   0     ;
+Cnp    =  -0.0602;
+Cnr    =  -0.2061;
+Cnda   =  -0.0120;
+Cndr   =  -0.0939;

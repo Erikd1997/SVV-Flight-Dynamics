@@ -22,7 +22,7 @@ cg15 = (sum(Payload.*Payload_arm15) + Fuel_mass(end)*cg_fuel(end) + BEM*BEM_arm)
 
 cg = [cg1_14; cg15];                                             %[m]
 
-Moment = Mass.*cg;                                              %[N*m]
+Moment = Mass.*9.81.*cg;                                          %[N*m]
 
 Mass_CG_Moment_array = [Mass cg Moment];
 end
