@@ -16,6 +16,6 @@ for i = 1:length(fuel)
     Moment_fuel = (fuel(i)-Fuel_lower)/(Fuel_higher-Fuel_lower)*(Moment_higher-Moment_lower) + ...
         Moment_lower;
     
-    cg_fuel(i) = Moment_fuel/fuel(i);
+    cg_fuel(i) = Moment_fuel*100/fuel(i);
 end
 end
