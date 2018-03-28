@@ -1,6 +1,4 @@
 %clc
-close all
-clear
 
 %Call the file containing all variables
 Cit_par
@@ -19,7 +17,7 @@ datasheet = 'Post_Flight_Datasheet_Flight_2_DD_14_3_2018.xlsx';
 %Which plots should appear?
 plot_DutchRoll = false;
 plot_Phugoid = false;
-plot_ShortPeriod = true;
+plot_ShortPeriod = false;
 plot_AperiodicRoll = false;
 plot_Spiral = false;
 
@@ -283,7 +281,7 @@ if plot_DutchRoll
     subplot(4,1,4)
     plot(time_DutchRoll, [da_DutchRoll dr_DutchRoll])
     xlabel('t (s)')
-    ylabel('da (deg)')
+    ylabel('da/dr (deg)')
     xlabel('t (s)')
     title('Aileron Deflection (blue), Rudder Deflection (red) - Dutch Roll')
 end
