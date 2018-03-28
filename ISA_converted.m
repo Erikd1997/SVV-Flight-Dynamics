@@ -12,11 +12,6 @@ gamma  = 1.401;      % [-]
 R      = 287.04;     % [m^2/(degK*sec^2)]
 lambda = -0.0065;  % [degK/m]
 
-%First convert hp, IAS, and TAT into SI-units:
-% h  = hp_ft.*unitsratio('meter', 'feet');
-% Vc = convvel(IAS_kts, 'kts', 'm/s');
-% TAT = convtemp(TAT_C, 'C', 'K');
-
 %Find the ISA pressures and use it to find the corresponding mach numbers:
 p = p0.*((1+(lambda.*hp)./T0).^(-g0./(lambda.*R)));
 
@@ -27,4 +22,5 @@ Temp = TAT_K./(1 + ((gamma-1)/2).*M.^2);
 
 
 rho = p./(R.*Temp);
+
 end

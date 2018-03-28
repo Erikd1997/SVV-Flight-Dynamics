@@ -9,10 +9,6 @@ V0     = 86.46;         % true airspeed in the stationary flight condition [m/se
 alpha0 = deg2rad(5.2);   % angle of attack in the stationary flight condition [rad]
 th0    = deg2rad(3.7);   % pitch angle in the stationary flight condition [rad]
 m = 5354;                % Mass [kg]
-
-% Standard thrust values
-mf_s   = 0.048;        % Fuel flow [kg/s]
-
 % aerodynamic properties
 e      = 0.7857;            % Oswald factor [ ]
 CD0    = 0.022048;          % Zero lift drag coefficient [ ]
@@ -21,7 +17,6 @@ CLa    = 4.481;            % Slope of CL-alpha curve [ ]
 % Longitudinal stability
 Cma    = -0.6591;            % longitudinal stabilty [ ]
 Cmde   = -1.5435;            % elevator effectiveness [ ]
-
 
 % Aircraft geometry
 
@@ -48,7 +43,7 @@ g      = 9.81;            % [m/sec^2] (gravity constant)
 p0     = 101325;          % [Pa]
 
 rho    = rho0*((1+(lambda*hp0/Temp0)))^(-((g/(lambda*R))+1));   % [kg/m^3]  (air density)
-W      = m*g;                                                   % [N]       (aircraft weight)
+W      = m*g;
 
 % Constant values concerning aircraft inertia
 
@@ -72,42 +67,40 @@ CL = 2*W/(rho*V0^2*S);               % Lift coefficient [ ]
 CD = CD0 + (CLa*alpha0)^2/(pi*A*e);  % Drag coefficient [ ]
 
 % Stabiblity derivatives
-
 CX0    = W*sin(th0)/(0.5*rho*V0^2*S);
-CXu    = -0.02792;
-CXa    = -0.47966;
-CXadot = +0.08330;
-CXq    = -0.28170;
-CXde   = -0.03728;
-
+CXu    = -0.0100; % -0.02792;
+CXa    = -0.47966; %-0.47966;
+CXadot = +0.16; %+0.08330;
+CXq    = -0.28170; %-0.28170;
+CXde   = -0.03728; %-0.03728;
+ 
 CZ0    = -W*cos(th0)/(0.5*rho*V0^2*S);
-CZu    = -0.37616;
-CZa    = -5.74340;
-CZadot = -0.00350;
-CZq    = -5.66290;
-CZde   = -0.69612;
-
-Cmu    = +0.06990;
-Cmadot = +0.17800;
-Cmq    = -8.79415;
-Cm_Tc  = -0.00640;
-
-CYb    = -0.7500;
+CZu    = -0.36; %-0.37616;
+CZa    = -4.85; %-5.74340;
+CZadot = -0.00350; %-0.00350;
+CZq    = -5.66290; %-5.66290;
+CZde   = -0.69612; %-0.69612;
+ 
+Cmu    = +0.12; %+0.06990;
+Cmadot = +0.17800; %+0.17800;
+Cmq    = -10.35415; %-8.79415;
+ 
+CYb    = -0.7500; 
 CYbdot =  0     ;
 CYp    = -0.0304;
 CYr    = +0.8495;
 CYda   = +0.0400;
-CYdr   = +0.2300;
-
-Clb    = -0.10260;
-Clp    = -0.71085;
-Clr    = +0.23760;
-Clda   = -0.23088;
-Cldr   = +0.03440;
-
-Cnb    = +0.1348;
+CYdr   = +0.2300; 
+ 
+Clb    = -0.065;   %-0.10260; -0.06; -0.07
+Clp    = -0.375; %-0.7108, doesnt change DR -0.375
+Clr    = +0.02; %0.2376, smaller makes spiral somewhat better, +0.02
+Clda   = -0.14;  %makes the aperiodic roll correct -0.2309(original value); making it more negative messes every plot up
+Cldr   = +0.0115; %+0.03440;
+ 
+Cnb    = +0.12; %0.1348, 0.125 makes yaw rate for DR almost correct icw clb = -0.06
 Cnbdot = 0     ;
-Cnp    = -0.0602;
-Cnr    = -0.2061;
-Cnda   = -0.0120;
-Cndr   = -0.0939;
+Cnp    =  -0.0602; %doesn't do much good -0.0602
+Cnr    = -0.145; %-0.2061, influences Roll&yawrate van DR, increase is more wiggle ; -0.145
+Cnda   = -0.0120; %changes don't help
+Cndr   = -0.0715; %-0.0939, -0.0715 makes aperiodic roll nicer.
