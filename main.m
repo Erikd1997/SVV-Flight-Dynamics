@@ -17,11 +17,11 @@ flight = load('FTISxprt-20180314_101817.mat');
 datasheet = 'Post_Flight_Datasheet_Flight_2_DD_14_3_2018.xlsx';
 
 %Which plots should appear?
-plot_DutchRoll = true;
+plot_DutchRoll = false;
 plot_Phugoid = false;
-plot_ShortPeriod = false;
-plot_AperiodicRoll = true;
-plot_Spiral = true;
+plot_ShortPeriod = true;
+plot_AperiodicRoll = false;
+plot_Spiral = false;
 
 %% Check each manoeuvre
 %First save necessary data
