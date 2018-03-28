@@ -4,22 +4,24 @@
 
 % Stationary flight condition
 
-hp0    = ;      	  % pressure altitude in the stationary flight condition [m]
-V0     = ;            % true airspeed in the stationary flight condition [m/sec]
-alpha0 = ;       	  % angle of attack in the stationary flight condition [rad]
-th0    = ;       	  % pitch angle in the stationary flight condition [rad]
 
-% Aircraft mass
-m      = ;         	  % mass [kg]
+hp0    = 1833; % pressure altitude in the stationary flight condition [m]
+V0     = 86.46;         % true airspeed in the stationary flight condition [m/sec]
+alpha0 = deg2rad(5.2);   % angle of attack in the stationary flight condition [rad]
+th0    = deg2rad(3.7);   % pitch angle in the stationary flight condition [rad]
+m = 5354;                % Mass [kg]
+
+% Standard thrust values
+mf_s   = 0.048;        % Fuel flow [kg/s]
 
 % aerodynamic properties
-e      = ;            % Oswald factor [ ]
-CD0    = ;            % Zero lift drag coefficient [ ]
-CLa    = ;            % Slope of CL-alpha curve [ ]
+e      = 0.7857;            % Oswald factor [ ]
+CD0    = 0.022048;          % Zero lift drag coefficient [ ]
+CLa    = 4.481;            % Slope of CL-alpha curve [ ]
 
 % Longitudinal stability
-Cma    = ;            % longitudinal stabilty [ ]
-Cmde   = ;            % elevator effectiveness [ ]
+Cma    = -0.6591;            % longitudinal stabilty [ ]
+Cmde   = -1.5435;            % elevator effectiveness [ ]
 
 % Aircraft geometry
 
@@ -27,14 +29,13 @@ S      = 30.00;	          % wing area [m^2]
 Sh     = 0.2*S;           % stabiliser area [m^2]
 Sh_S   = Sh/S;	          % [ ]
 lh     = 0.71*5.968;      % tail length [m]
-c      = 2.0569;	  % mean aerodynamic cord [m]
+c      = 2.0569;          % mean aerodynamic cord [m]
 lh_c   = lh/c;	          % [ ]
-b      = 15.911;	  % wing span [m]
+b      = 15.911;	      % wing span [m]
 bh     = 5.791;	          % stabilser span [m]
 A      = b^2/S;           % wing aspect ratio [ ]
 Ah     = bh^2/Sh;         % stabilser aspect ratio [ ]
-Vh_V   = 1;		  % [ ]
-ih     = -2*pi/180;       % stabiliser angle of incidence [rad]
+Vh_V   = 1;		          % [ ]
 
 % Constant values concerning atmosphere and gravity
 
@@ -43,9 +44,10 @@ lambda = -0.0065;         % temperature gradient in ISA [K/m]
 Temp0  = 288.15;          % temperature at sea level in ISA [K]
 R      = 287.05;          % specific gas constant [m^2/sec^2K]
 g      = 9.81;            % [m/sec^2] (gravity constant)
+p0     = 101325;          % [Pa]
 
 rho    = rho0*((1+(lambda*hp0/Temp0)))^(-((g/(lambda*R))+1));   % [kg/m^3]  (air density)
-W      = m*g;				                        % [N]       (aircraft weight)
+W      = m*g;                                                   % [N]       (aircraft weight)
 
 % Constant values concerning aircraft inertia
 
@@ -87,6 +89,7 @@ CZde   = -0.69612;
 Cmu    = +0.06990;
 Cmadot = +0.17800;
 Cmq    = -8.79415;
+Cm_Tc  = -0.00640;
 
 CYb    = -0.7500;
 CYbdot =  0     ;
