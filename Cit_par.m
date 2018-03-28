@@ -9,6 +9,10 @@ V0     = 86.46;         % true airspeed in the stationary flight condition [m/se
 alpha0 = deg2rad(5.2);   % angle of attack in the stationary flight condition [rad]
 th0    = deg2rad(3.7);   % pitch angle in the stationary flight condition [rad]
 m = 5354;                % Mass [kg]
+
+% Standard thrust values
+mf_s   = 0.048;        % Fuel flow [kg/s]
+
 % aerodynamic properties
 e      = 0.7857;            % Oswald factor [ ]
 CD0    = 0.022048;          % Zero lift drag coefficient [ ]
@@ -17,6 +21,7 @@ CLa    = 4.481;            % Slope of CL-alpha curve [ ]
 % Longitudinal stability
 Cma    = -0.6591;            % longitudinal stabilty [ ]
 Cmde   = -1.5435;            % elevator effectiveness [ ]
+
 
 % Aircraft geometry
 
@@ -43,7 +48,7 @@ g      = 9.81;            % [m/sec^2] (gravity constant)
 p0     = 101325;          % [Pa]
 
 rho    = rho0*((1+(lambda*hp0/Temp0)))^(-((g/(lambda*R))+1));   % [kg/m^3]  (air density)
-W      = m*g;
+W      = m*g;                                                   % [N]       (aircraft weight)
 
 % Constant values concerning aircraft inertia
 
@@ -85,6 +90,7 @@ CZde   = -0.69612;
 Cmu    = +0.06990;
 Cmadot = +0.17800;
 Cmq    = -8.79415;
+Cm_Tc  = -0.00640;
 
 CYb    = -0.7500;
 CYbdot =  0     ;
