@@ -15,3 +15,5 @@ clear
 c = load('Cit_par.mat');
 
 [sysA, sysS] = state_space_system(c);
+
+%% Symmetric flight
