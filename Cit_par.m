@@ -8,7 +8,8 @@ hp0    = 1833; % pressure altitude in the stationary flight condition [m]
 V0     = 86.46;         % true airspeed in the stationary flight condition [m/sec]
 alpha0 = deg2rad(5.2);   % angle of attack in the stationary flight condition [rad]
 th0    = deg2rad(3.7);   % pitch angle in the stationary flight condition [rad]
-m = 5354;                % Mas
+m = 5354;                % Mass
+
 % aerodynamic properties
 e      = 0.7857;            % Oswald factor [ ]
 CD0    = 0.022048;          % Zero lift drag coefficient [ ]
