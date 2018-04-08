@@ -35,7 +35,10 @@ plot_AperiodicRoll = false;
 plot_Spiral = false;
 
 %Do you wanna plot all the necessary figures for the report to save them?
-PlotAllForSaving = true;
+PlotAllForSaving = false;
+
+%Do you wanna plot the result plots for results in numerical model?
+ResultPlots = true;
 
 %% Check each manoeuvre
 %First save necessary data
@@ -440,27 +443,27 @@ if plot_DutchRoll
     subplot(4,1,1)
     plot(time_DutchRoll, [RollRate_DutchRoll y_DutchRoll_init(:,3) y_DutchRoll_update(:,3)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('r (deg/s)')
+    ylabel('p (deg/s)')
     xlabel('t (s)')
     title('Roll Rate - Dutch Roll')
     subplot(4,1,2)
     plot(time_DutchRoll, [YawRate_DutchRoll y_DutchRoll_init(:,4) y_DutchRoll_update(:,4)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('p (deg/s)')
+    ylabel('r (deg/s)')
     xlabel('t (s)')
     title('Yaw Rate - Dutch Roll')
     subplot(4,1,3)
     plot([RollRate_DutchRoll y_DutchRoll_init(:,3) y_DutchRoll_update(:,3)], [YawRate_DutchRoll y_DutchRoll_init(:,4) y_DutchRoll_update(:,4)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('p (deg/s)')
-    xlabel('r (deg/s)')
+    ylabel('r (deg/s)')
+    xlabel('p (deg/s)')
     title('Roll rate vs Yaw rate - Dutch Roll')
     subplot(4,1,4)
     plot(time_DutchRoll, [da_DutchRoll dr_DutchRoll])
     xlabel('t (s)')
-    ylabel('da/dr (deg)')
+    ylabel('deflection (deg)')
     xlabel('t (s)')
-    legend({'Aileron deflection','Rudder deflection'})
+    legend({'Aileron','Rudder'})
     title('Inputs - Dutch Roll')
 end
 
@@ -544,14 +547,14 @@ if plot_AperiodicRoll
     subplot(3,1,2)
     plot(time_AperiodicRoll, [RollRate_AperiodicRoll y_AperiodicRoll_init(:,3) y_AperiodicRoll_update(:,3)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('r (deg/s)')
+    ylabel('p (deg/s)')
     xlabel('t (s)')
     title('Roll Rate - Aperiodic Roll')
     subplot(3,1,3)
     plot(time_AperiodicRoll, [da_AperiodicRoll dr_AperiodicRoll])
-    ylabel('da (deg)')
+    ylabel('deflection (deg)')
     xlabel('t (s)')
-    legend({'Aileron deflection','Rudder deflection'})
+    legend({'Aileron','Rudder'})
     title('Inputs - Aperiodic Roll')
 end
 
@@ -567,20 +570,20 @@ if plot_Spiral
     subplot(4,1,2)
     plot(time_Spiral, [YawRate_Spiral y_Spiral_init(:,4) y_Spiral_update(:,4)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('p (deg/s)')
+    ylabel('r (deg/s)')
     xlabel('t (s)')
     title('Yaw Rate - Spiral')
     subplot(4,1,3)
     plot(time_Spiral, [RollRate_Spiral y_Spiral_init(:,3) y_Spiral_update(:,3)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('r (deg/s)')
+    ylabel('p (deg/s)')
     xlabel('t (s)')
     title('Roll Rate - Spiral')
     subplot(4,1,4)
     plot(time_Spiral, [da_Spiral dr_Spiral])
-    ylabel('da (deg)')
+    ylabel('deflection (deg)')
     xlabel('t (s)')
-    legend({'Aileron deflection','Rudder deflection'})
+    legend({'Aileron','Rudder'})
     title('Inputs - Spiral')
 end
 
@@ -589,150 +592,236 @@ if PlotAllForSaving
     figure
     plot(time_ShortPeriod, [TAS_ShortPeriod y_ShortPeriod_init(:,1) y_ShortPeriod_update(:,1)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('V (m/s)')
-    xlabel('t (s)')
+    ylabel('V [m/s]')
+    xlabel('t [s]')
 %     title('True Airspeed - Short Period')
     
     figure
     plot(time_ShortPeriod, [AOA_ShortPeriod y_ShortPeriod_init(:,2) y_ShortPeriod_update(:,2)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('\alpha (deg)')
-    xlabel('t (s)')
+    ylabel('\alpha [deg]')
+    xlabel('t [s]')
 %     title('Angle of Attack - Short Period')
     
     figure
     plot(time_ShortPeriod, [Pitch_ShortPeriod y_ShortPeriod_init(:,3) y_ShortPeriod_update(:,3)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('\theta (deg)')
-    xlabel('t (s)')
+    ylabel('\theta [deg]')
+    xlabel('t [s]')
 %     title('Pitch Angle - Short Period')
     
     figure
     plot(time_ShortPeriod, [PitchRate_ShortPeriod y_ShortPeriod_init(:,4) y_ShortPeriod_update(:,4)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('q (deg/s)')
-    xlabel('t (s)')
+    ylabel('q [deg/s]')
+    xlabel('t [s]')
 %     title('Pitch Rate - Short Period')
     
     figure
     plot(time_ShortPeriod, de_ShortPeriod)
-    ylabel('de (deg)')
-    xlabel('t (s)')
+    ylabel('de [deg]')
+    xlabel('t [s]')
 %     title('Elevator Deflection - Short Period')
     
     %Phugoid    
     figure
     plot(time_Phugoid, [TAS_Phugoid y_Phugoid_init(:,1) y_Phugoid_update(:,1)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('V (m/s)')
-    xlabel('t (s)')
+    ylabel('V [m/s]')
+    xlabel('t [s]')
 %     title('True Airspeed - Phugoid')
     
     figure
     plot(time_Phugoid, [AOA_Phugoid y_Phugoid_init(:,2) y_Phugoid_update(:,2)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('\alpha (deg)')
-    xlabel('t (s)')
+    ylabel('\alpha [deg]')
+    xlabel('t [s]')
 %     title('Angle of Attack - Phugoid')
     
     figure
     plot(time_Phugoid, [Pitch_Phugoid y_Phugoid_init(:,3) y_Phugoid_update(:,3)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('\theta (deg)')
-    xlabel('t (s)')
+    ylabel('\theta [deg]')
+    xlabel('t [s]')
 %     title('Pitch angle - Phugoid')
     
     figure
     plot(time_Phugoid, [PitchRate_Phugoid y_Phugoid_init(:,4) y_Phugoid_update(:,4)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('q (deg/s)')
-    xlabel('t (s)')
+    ylabel('q [deg/s]')
+    xlabel('t [s]')
 %     title('Pitch Rate - Phugoid')
     
     figure
     plot(time_Phugoid, de_Phugoid)
-    ylabel('de (deg)')
-    xlabel('t (s)')
+    ylabel('de [deg]')
+    xlabel('t [s]')
 %     title('Elevator Deflection - Phugoid')
     
     %Dutch Roll
     figure
     plot(time_DutchRoll, [RollRate_DutchRoll y_DutchRoll_init(:,3) y_DutchRoll_update(:,3)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('r (deg/s)')
-    xlabel('t (s)')
+    ylabel('p [deg/s]')
+    xlabel('t [s]')
 %     title('Roll Rate - Dutch Roll')
     
     figure
     plot(time_DutchRoll, [YawRate_DutchRoll y_DutchRoll_init(:,4) y_DutchRoll_update(:,4)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('p (deg/s)')
-    xlabel('t (s)')
+    ylabel('r [deg/s]')
+    xlabel('t [s]')
 %     title('Yaw Rate - Dutch Roll')
 
     figure
     plot([RollRate_DutchRoll y_DutchRoll_init(:,3) y_DutchRoll_update(:,3)], [YawRate_DutchRoll y_DutchRoll_init(:,4) y_DutchRoll_update(:,4)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('p (deg/s)')
-    xlabel('r (deg/s)')
+    ylabel('r [deg/s]')
+    xlabel('p [deg/s]')
 %     title('Roll rate vs Yaw rate - Dutch Roll')
     
     figure   
     plot(time_DutchRoll, [da_DutchRoll dr_DutchRoll])
-    xlabel('t (s)')
-    ylabel('da/dr (deg)')
-    xlabel('t (s)')
-    legend({'Aileron deflection','Rudder deflection'})
+    ylabel('deflection [deg]')
+    xlabel('t [s]')
+    legend({'Aileron','Rudder'})
 %     title('Inputs - Dutch Roll')
 
     %Aperiodic Roll
     figure
     plot(time_AperiodicRoll, [Roll_AperiodicRoll y_AperiodicRoll_init(:,2) y_AperiodicRoll_update(:,2)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('\phi (deg/s)')
-    xlabel('t (s)')
+    ylabel('\phi [deg/s]')
+    xlabel('t [s]')
 %     title('Roll Angle - Aperiodic Roll')
     
     figure
     plot(time_AperiodicRoll, [RollRate_AperiodicRoll y_AperiodicRoll_init(:,3) y_AperiodicRoll_update(:,3)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('r (deg/s)')
-    xlabel('t (s)')
+    ylabel('p [deg/s]')
+    xlabel('t [s]')
 %     title('Roll Rate - Aperiodic Roll')
     
     figure
     plot(time_AperiodicRoll, [da_AperiodicRoll dr_AperiodicRoll])
-    ylabel('da (deg)')
-    xlabel('t (s)')
-    legend({'Aileron deflection','Rudder deflection'})
+    ylabel('deflection [deg]')
+    xlabel('t [s]')
+    legend({'Aileron','Rudder'})
 %     title('Inputs - Aperiodic Roll')
     
     %Spiral
     figure
     plot(time_Spiral, [Roll_Spiral y_Spiral_init(:,2) y_Spiral_update(:,2)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('\phi (deg)')
-    xlabel('t (s)')
+    ylabel('\phi [deg]')
+    xlabel('t [s]')
 %     title('Roll Angle - Spiral')
     
     figure
     plot(time_Spiral, [YawRate_Spiral y_Spiral_init(:,4) y_Spiral_update(:,4)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('p (deg/s)')
-    xlabel('t (s)')
+    ylabel('r [deg/s]')
+    xlabel('t [s]')
 %     title('Yaw Rate - Spiral')
     
     figure
     plot(time_Spiral, [RollRate_Spiral y_Spiral_init(:,3) y_Spiral_update(:,3)])
     legend({'Measurement', 'Initial values', 'Updated values'})
-    ylabel('r (deg/s)')
-    xlabel('t (s)')
+    ylabel('p [deg/s]')
+    xlabel('t [s]')
 %     title('Roll Rate - Spiral')
     
     figure
     plot(time_Spiral, [da_Spiral dr_Spiral])
-    ylabel('da (deg)')
-    xlabel('t (s)')
-    legend({'Aileron deflection','Rudder deflection'})
+    ylabel('deflection [deg]')
+    xlabel('t [s]')
+    legend({'Aileron','Rudder'})
 %     title('Inputs - Spiral')
+end
+
+if ResultPlots
+    %Short Period
+    figure
+    plot(time_ShortPeriod, [y_ShortPeriod_init(:,1)])
+    ylabel('V [m/s]')
+    xlabel('t [s]')
+    
+    figure
+    plot(time_ShortPeriod, [y_ShortPeriod_init(:,2)])
+    ylabel('\alpha [deg]')
+    xlabel('t [s]')
+    
+    figure
+    plot(time_ShortPeriod, [y_ShortPeriod_init(:,3)])
+    ylabel('\theta [deg]')
+    xlabel('t [s]')
+    
+    figure
+    plot(time_ShortPeriod, [y_ShortPeriod_init(:,4)])
+    ylabel('q [deg/s]')
+    xlabel('t [s]')
+
+    %Phugoid    
+    figure
+    plot(time_Phugoid, [y_Phugoid_init(:,1)])
+    ylabel('V [m/s]')
+    xlabel('t [s]')
+    
+    figure
+    plot(time_Phugoid, [y_Phugoid_init(:,2)])
+    ylabel('\alpha [deg]')
+    xlabel('t [s]')
+    
+    figure
+    plot(time_Phugoid, [y_Phugoid_init(:,3)])
+    ylabel('\theta [deg]')
+    xlabel('t [s]')
+    
+    figure
+    plot(time_Phugoid, [y_Phugoid_init(:,4)])
+    ylabel('q [deg/s]')
+    xlabel('t [s]')
+    
+    %Dutch Roll
+    figure
+    plot(time_DutchRoll, [y_DutchRoll_init(:,3)])
+    ylabel('p [deg/s]')
+    xlabel('t [s]')
+    
+    figure
+    plot(time_DutchRoll, [y_DutchRoll_init(:,4)])
+    ylabel('r [deg/s]')
+    xlabel('t [s]')
+
+    figure
+    plot([y_DutchRoll_init(:,3)], [y_DutchRoll_init(:,4)])
+    ylabel('r [deg/s]')
+    xlabel('p [deg/s]')
+    
+    %Aperiodic Roll
+    figure
+    plot(time_AperiodicRoll, [y_AperiodicRoll_init(:,2)])
+    ylabel('\phi [deg/s]')
+    xlabel('t [s]')
+    
+    figure
+    plot(time_AperiodicRoll, [y_AperiodicRoll_init(:,3)])
+    ylabel('p [deg/s]')
+    xlabel('t [s]')
+    
+    %Spiral
+    figure
+    plot(time_Spiral, [y_Spiral_init(:,2)])
+    ylabel('\phi [deg]')
+    xlabel('t [s]')
+    
+    figure
+    plot(time_Spiral, [y_Spiral_init(:,4)])
+    ylabel('r [deg/s]')
+    xlabel('t [s]')
+    
+    figure
+    plot(time_Spiral, [y_Spiral_init(:,3)])
+    ylabel('p [deg/s]')
+    xlabel('t [s]')
 end
